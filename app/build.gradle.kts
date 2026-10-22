@@ -14,11 +14,11 @@ val localProps = Properties().apply {
 val giphyKey: String = localProps.getProperty("GIPHY_API_KEY") ?: System.getenv("GIPHY_API_KEY") ?: ""
 
 android {
-    namespace = "com.redzero.keyboard"
+    namespace = "com.truetap.keyboard"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.redzero.keyboard"
+        applicationId = "com.truetap.keyboard"
         minSdk = 29
         targetSdk = 35
         versionCode = 1

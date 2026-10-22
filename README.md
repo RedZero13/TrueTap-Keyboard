@@ -1,4 +1,4 @@
-# RedZero Keyboard
+# TrueTap Keyboard
 
 An Android keyboard modelled on Gboard. Its main job is to type the key you were aiming for, even when
 your thumb lands on the one next to it.
@@ -8,7 +8,7 @@ were chosen for that screen. Larger and smaller screens will work, but they have
 
 ## Features
 
-| Gboard feature | RedZero |
+| Gboard feature | TrueTap |
 | --- | --- |
 | Accurate typing | Probabilistic key detection, a learned per-thumb touch model, and a dictionary decoder with autocorrect (details below) |
 | Number row | On by default (Settings → Layout → Number row). With it off, long-press the top row for digits |
@@ -27,7 +27,7 @@ were chosen for that screen. Larger and smaller screens will work, but they have
 ## Installing on your Pixel 9
 
 **Option A – download a build (no tools needed)**
-1. Open the repo on GitHub → **Actions** → latest **Build APK** run → download the `redzero-keyboard-apk` artifact.
+1. Open the repo on GitHub → **Actions** → latest **Build APK** run → download the `truetap-keyboard-apk` artifact.
 2. Unzip it and copy `app-release.apk` to the phone, then open it. You'll need to allow installs from your browser or file manager.
 
 **Option B – build it yourself**
@@ -35,10 +35,10 @@ were chosen for that screen. Larger and smaller screens will work, but they have
 2. Or from a terminal: `./gradlew installDebug`
 
 **Then, on the phone**
-1. Open **RedZero Keyboard** from the app drawer.
-2. Tap **1. Enable RedZero** and turn it on.
-3. Tap **2. Switch to RedZero**.
-4. Recommended: tap **Calibrate typing** and type the six short phrases. It takes about two minutes and teaches RedZero where *your* thumbs actually land.
+1. Open **TrueTap Keyboard** from the app drawer.
+2. Tap **1. Enable TrueTap** and turn it on.
+3. Tap **2. Switch to TrueTap**.
+4. Recommended: tap **Calibrate typing** and type the six short phrases. It takes about two minutes and teaches TrueTap where *your* thumbs actually land.
 5. For GIFs and stickers, paste a free GIPHY API key under *GIFs & stickers*. You can get one at
    developers.giphy.com → Create an App → API. To bake a key into your own builds, put `GIPHY_API_KEY=...` in
    `local.properties` or set it as a repository secret for CI.
@@ -49,7 +49,7 @@ While you test, turn on **Show touch points**. Dots then mark where each tap act
 ## How it avoids hitting the wrong key
 
 Gboard's typical failure is that one or two slightly-off taps per word turn into a different word. Or the
-autocorrect "fixes" it into something else. RedZero treats every tap as uncertain evidence, not as a key press:
+autocorrect "fixes" it into something else. TrueTap treats every tap as uncertain evidence, not as a key press:
 
 1. **Touch model per key** (`engine/SpatialModel.kt`). Each tap gets a likelihood for every nearby key from
    a 2-D Gaussian. The Gaussian is centred where you tend to hit that key, not on the key's printed
@@ -75,9 +75,9 @@ autocorrect "fixes" it into something else. RedZero treats every tap as uncertai
 ### Measured on simulated sloppy typing
 
 `tools/sim.sh` (and the `SimulationTest` unit test) types 80 everyday messages with simulated thumb scatter
-on Pixel 9 key geometry. It compares the key under the thumb with what RedZero types:
+on Pixel 9 key geometry. It compares the key under the thumb with what TrueTap types:
 
-| Typist (tap scatter, in key widths) | Words right: key under thumb | Words right: RedZero |
+| Typist (tap scatter, in key widths) | Words right: key under thumb | Words right: TrueTap |
 | --- | --- | --- |
 | Careful (0.25) | 83.3% | **98.9%** |
 | Average thumb (0.35 + offset) | 44.9% | **96.8%** |
@@ -91,7 +91,7 @@ not from real thumbs. Calibrating on the Pixel and using the keyboard for a whil
 ## Project layout
 
 ```
-app/src/main/java/com/redzero/keyboard/
+app/src/main/java/com/truetap/keyboard/
   engine/     Pure-Kotlin typing brain (no Android deps, unit-tested): dictionary trie, touch model,
               decoder, autocorrect policy, glide decoder, user history
   ime/        The InputMethodService, keyboard view, layouts, toolbar, theme, icons, media provider
@@ -121,4 +121,4 @@ The app uses only the Android framework and the Kotlin standard library (no Andr
 Word frequencies come from [wordfreq](https://github.com/rspeer/wordfreq) (CC BY-SA 4.0). Other sources:
 definitions from [Free Dictionary API](https://dictionaryapi.dev), synonyms from
 [Datamuse](https://www.datamuse.com/api/), GIFs and stickers from [GIPHY](https://developers.giphy.com).
-Everything RedZero learns about your typing stays on the device.
+Everything TrueTap learns about your typing stays on the device.

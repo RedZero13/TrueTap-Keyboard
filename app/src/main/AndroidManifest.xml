@@ -20,7 +20,7 @@
         android:theme="@android:style/Theme.DeviceDefault.DayNight">
 
         <service
-            android:name=".ime.RedZeroIME"
+            android:name=".ime.TrueTapIME"
             android:exported="true"
             android:label="@string/ime_name"
             android:permission="android.permission.BIND_INPUT_METHOD">
@@ -51,7 +51,7 @@
 
         <provider
             android:name=".ime.MediaProvider"
-            android:authorities="com.redzero.keyboard.media"
+            android:authorities="com.truetap.keyboard.media"
             android:exported="false"
             android:grantUriPermissions="true" />
     </application>

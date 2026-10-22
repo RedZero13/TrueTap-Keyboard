@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RedZero Keyboard</string>
-    <string name="ime_name">RedZero</string>
+    <string name="app_name">TrueTap Keyboard</string>
+    <string name="ime_name">TrueTap</string>
     <string name="calibrate_title">Calibrate typing</string>
 </resources>

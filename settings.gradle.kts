@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "RedZero"
+rootProject.name = "TrueTap"
 include(":app")
