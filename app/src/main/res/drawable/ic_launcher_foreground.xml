@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A keyboard with a crosshair on one key: typing that lands where you aim. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Keyboard body -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M32,38 h44 a5,5 0 0 1 5,5 v24 a5,5 0 0 1 -5,5 h-44 a5,5 0 0 1 -5,-5 v-24 a5,5 0 0 1 5,-5 z" />
+    <!-- Keys -->
+    <path
+        android:fillColor="#C62828"
+        android:pathData="M33,44 h6 v6 h-6 z M42,44 h6 v6 h-6 z M51,44 h6 v6 h-6 z M60,44 h6 v6 h-6 z M69,44 h6 v6 h-6 z
+            M37,53 h6 v6 h-6 z M46,53 h6 v6 h-6 z M64,53 h6 v6 h-6 z
+            M40,63 h28 v4 h-28 z" />
+    <!-- Target ring on the hit key -->
+    <path
+        android:fillColor="#C62828"
+        android:pathData="M58,56 m-5.5,0 a5.5,5.5 0 1 0 11,0 a5.5,5.5 0 1 0 -11,0 z M58,56 m-3,0 a3,3 0 1 1 6,0 a3,3 0 1 1 -6,0 z" />
+    <path
+        android:fillColor="#C62828"
+        android:pathData="M57.25,49 h1.5 v14 h-1.5 z M51,55.25 h14 v1.5 h-14 z" />
+</vector>
