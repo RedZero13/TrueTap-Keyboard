@@ -70,8 +70,9 @@ class TypingEngine(
 
     /**
      * Decide what to commit for a finished word. [literal] is what the user saw while typing.
+     * [allowSplit] can be turned off for cheap live previews.
      */
-    fun finishWord(taps: List<Tap>, literal: String, prevWord: String?): WordResult {
+    fun finishWord(taps: List<Tap>, literal: String, prevWord: String?, allowSplit: Boolean = true): WordResult {
         val keep = WordResult(literal, false, literal)
         if (autocorrectLevel == 0 || taps.isEmpty() || taps.size != literal.length) return keep
         if (literal.any { !it.isLetter() && it != '\'' }) return keep
@@ -109,11 +110,11 @@ class TypingEngine(
                 second == null || best.score - second.score >= 0.4f || best.edits == 0
             }
             if (accept) {
-                if (!literalKnown && splitWords) split(taps, prevWord, best.score)?.let { return WordResult(it, true, literal) }
+                if (!literalKnown && splitWords && allowSplit) split(taps, prevWord, best.score)?.let { return WordResult(it, true, literal) }
                 return WordResult(best.word, true, literal)
             }
         }
-        if (!literalKnown && splitWords) split(taps, prevWord, best?.score ?: Float.NEGATIVE_INFINITY)?.let {
+        if (!literalKnown && splitWords && allowSplit) split(taps, prevWord, best?.score ?: Float.NEGATIVE_INFINITY)?.let {
             return WordResult(it, true, literal)
         }
         return keep

@@ -42,6 +42,21 @@ class EngineTest {
     }
 
     @Test
+    fun missedSpaceBarSplitsWords() {
+        // "this is" where the space tap landed on the bottom of 'n', just above the space bar.
+        val t = taps("this").toMutableList()
+        val n = keys.first { it.char == 'n' }
+        t.add(Tap(n.cx, n.cy + n.h * 0.4f, nearSpace = true))
+        t.addAll(taps("is"))
+        assertEquals("this is", engine.finishWord(t, "thisnis", null).text)
+    }
+
+    @Test
+    fun runTogetherCommonWordsSplit() {
+        assertEquals("this is", engine.finishWord(taps("thisis"), "thisis", null).text)
+    }
+
+    @Test
     fun loneLowercaseIBecomesCapital() {
         assertEquals("I", engine.finishWord(taps("i"), "i", null).text)
     }

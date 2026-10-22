@@ -73,7 +73,7 @@ class Dictionary private constructor(
         val heap = java.util.PriorityQueue<Long>(Comparator.reverseOrder())
         heap.add(pack(subtreeFreq[node], node, false))
         while (heap.isNotEmpty() && out.size < limit) {
-            val e = heap.poll()
+            val e = heap.poll() ?: break
             val n = ((e and 0xFFFFFFFFL) shr 1).toInt()
             if (e and 1L == 1L) {
                 out.add(n)
