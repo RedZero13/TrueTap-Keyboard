@@ -30,6 +30,13 @@ class PreviewOverlay(context: Context) : View(context) {
     private val loc = IntArray(2)
     private val myLoc = IntArray(2)
 
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        // Never ask for space: in a wrap_content keyboard window an AT_MOST spec is the whole screen,
+        // which would make the keyboard full-screen. The parent re-measures us at its final size.
+        val h = if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.EXACTLY) MeasureSpec.getSize(heightMeasureSpec) else 0
+        setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), h)
+    }
+
     init {
         isClickable = false
         isFocusable = false

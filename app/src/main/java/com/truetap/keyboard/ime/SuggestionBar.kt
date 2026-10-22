@@ -55,22 +55,29 @@ class SuggestionBar(context: Context, private val theme: KbTheme) : LinearLayout
 
     private fun dp(v: Float) = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, v, resources.displayMetrics).toInt()
 
-    val barHeight = dp(46f)
+    val barHeight = dp(50f)
 
     init {
         orientation = HORIZONTAL
         setBackgroundColor(theme.strip)
         gravity = Gravity.CENTER_VERTICAL
-        addView(leftButton, LayoutParams(dp(46f), barHeight))
+        addView(leftButton, LayoutParams(dp(52f), barHeight))
         addView(content, LayoutParams(0, barHeight, 1f))
-        addView(rightButton, LayoutParams(dp(46f), barHeight))
+        addView(rightButton, LayoutParams(dp(52f), barHeight))
+        rightButton.background = android.graphics.drawable.LayerDrawable(arrayOf(
+            android.graphics.drawable.GradientDrawable().apply {
+                shape = android.graphics.drawable.GradientDrawable.OVAL
+                setColor(theme.keyFunction)
+            },
+            IconDrawable(Icon.MIC, theme.stripText, 0.55f),
+        )).apply { setLayerInset(0, dp(5f), dp(4f), dp(5f), dp(4f)) }
         leftButton.setOnClickListener { listener?.onAction(leftAction) }
         rightButton.setOnClickListener { listener?.onAction(Action.VOICE) }
 
         toolbar.orientation = HORIZONTAL
         toolbar.gravity = Gravity.CENTER_VERTICAL
         for (a in TOOLBAR) {
-            val b = IconButton(context, a.icon, theme.stripText, 0.5f)
+            val b = IconButton(context, a.icon, theme.stripText, 0.52f)
             b.contentDescription = a.title
             b.setOnClickListener { listener?.onAction(a) }
             toolbar.addView(b, LayoutParams(0, barHeight, 1f))
@@ -176,11 +183,12 @@ class SuggestionBar(context: Context, private val theme: KbTheme) : LinearLayout
 
     private fun setLeft(a: Action) {
         leftAction = a
-        leftButton.background = IconDrawable(if (a == Action.KEYBOARD) Icon.BACK else Icon.GRID, theme.stripText, 0.55f)
+        leftButton.background = IconDrawable(if (a == Action.KEYBOARD) Icon.BACK else Icon.GRID, theme.stripText, 0.5f)
         leftButton.contentDescription = a.title
     }
 
     companion object {
-        val TOOLBAR = listOf(Action.EMOJI, Action.GIF, Action.CLIPBOARD, Action.DEFINE, Action.THESAURUS, Action.ONE_HANDED, Action.SETTINGS)
+        /** Kept short like Gboard's; everything else lives in the ⊞ grid. */
+        val TOOLBAR = listOf(Action.EMOJI, Action.GIF, Action.CLIPBOARD, Action.SETTINGS)
     }
 }

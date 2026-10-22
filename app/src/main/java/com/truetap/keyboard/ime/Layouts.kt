@@ -168,5 +168,5 @@ object Layouts {
         return KeyboardLayout("numpad", rows, listOf(1f, 1f, 1f, 1f), isAlphabetic = false)
     }
 
-    const val NUMBER_ROW_HEIGHT = 0.82f
+    const val NUMBER_ROW_HEIGHT = 0.9f
 }

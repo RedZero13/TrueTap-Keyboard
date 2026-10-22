@@ -73,10 +73,22 @@ class InputRoot(
         }
         addView(overlay, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
         setOnApplyWindowInsetsListener { _, insets ->
-            navInset = insets.getInsets(WindowInsets.Type.navigationBars()).bottom
-            if (!floating) setPadding(0, 0, 0, navInset)
+            applyNavInset(insets)
             insets
         }
+    }
+
+    private fun applyNavInset(insets: WindowInsets) {
+        // Keep the bottom row clear of the system's keyboard-hide / switcher bar.
+        navInset = insets.getInsets(WindowInsets.Type.navigationBars()).bottom
+        if (!floating) setPadding(0, 0, 0, navInset)
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        // A rebuilt keyboard view doesn't get insets dispatched until something asks.
+        rootWindowInsets?.let { applyNavInset(it) }
+        requestApplyInsets()
     }
 
     private fun sidePanel(): View {

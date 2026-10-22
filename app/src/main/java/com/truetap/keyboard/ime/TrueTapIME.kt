@@ -292,7 +292,7 @@ class TrueTapIME : InputMethodService(), KeyboardView.Listener, SuggestionBar.Li
             Page.SYMBOLS2 -> Layouts.symbols(2, multi, icon)
             Page.NUMPAD -> Layouts.numberPad(icon, phone)
         }
-        kbView.spaceLabel = if (multi) language.name else ""
+        kbView.spaceLabel = language.name
         Brain.withDictionary(this, lang) { if (it.size > 1) engineVersion = -1 }
     }
 

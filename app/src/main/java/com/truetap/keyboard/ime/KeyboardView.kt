@@ -93,7 +93,8 @@ class KeyboardView(context: Context, var theme: KbTheme) : View(context) {
     private val padH = dp(3f)
     private val gapH = dp(5f)
     private val gapV = dp(9f)
-    private val radius = dp(8f)
+    private val radius = dp(10f)
+    private val labelFace: Typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
 
     private enum class Mode { NORMAL, LONG_PRESS, CURSOR, DELETE_SWIPE, GESTURE, DONE }
 
@@ -409,17 +410,17 @@ class KeyboardView(context: Context, var theme: KbTheme) : View(context) {
             val spec = k.spec
             val bg = when {
                 k in pressed -> theme.keyPressed
-                spec.type == KeyType.ENTER -> theme.accent
                 spec.code == Codes.SHIFT && shiftState == 2 -> theme.accent
                 spec.type == KeyType.FUNCTION -> theme.keyFunction
                 else -> theme.key
             }
             paint.color = bg
             paint.style = Paint.Style.FILL
-            val r = if (spec.type == KeyType.ENTER) minOf(radius * 2.5f, k.rect.height() / 2) else radius
+            val pill = spec.type == KeyType.ENTER || spec.code == Codes.SYMBOLS || spec.code == Codes.ALPHA
+            val r = if (pill) k.rect.height() / 2 else radius
             canvas.drawRoundRect(k.rect, r, r, paint)
 
-            val fg = if (spec.type == KeyType.ENTER || (spec.code == Codes.SHIFT && shiftState == 2)) theme.onAccent else theme.text
+            val fg = if (spec.code == Codes.SHIFT && shiftState == 2) theme.onAccent else theme.text
             val icon = when {
                 spec.code == Codes.SHIFT -> when (shiftState) { 1 -> Icon.SHIFT_ON; 2 -> Icon.SHIFT_LOCK; else -> Icon.SHIFT }
                 else -> spec.icon
@@ -429,17 +430,17 @@ class KeyboardView(context: Context, var theme: KbTheme) : View(context) {
                 continue
             }
             if (spec.type == KeyType.SPACE) {
-                textPaint.color = theme.hint
-                textPaint.textSize = sp(13f)
+                textPaint.color = theme.text
+                textPaint.textSize = sp(15f)
                 textPaint.typeface = Typeface.DEFAULT
                 drawCentered(canvas, spaceLabel, k.rect.centerX(), k.rect.centerY())
                 continue
             }
             val label = labelFor(spec)
             textPaint.color = fg
-            textPaint.typeface = Typeface.DEFAULT
+            textPaint.typeface = labelFace
             textPaint.textSize = when {
-                spec.type == KeyType.FUNCTION -> sp(14f)
+                spec.type == KeyType.FUNCTION -> sp(15f)
                 label.length > 1 -> sp(16f)
                 k.row == 0 && layout?.rowHeights?.firstOrNull() == Layouts.NUMBER_ROW_HEIGHT && layout?.isAlphabetic == true -> sp(18f) * scale
                 else -> sp(22f) * scale
