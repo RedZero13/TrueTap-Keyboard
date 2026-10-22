@@ -194,7 +194,7 @@ class SettingsActivity : Activity() {
             text = t
             setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
             setTypeface(typeface, Typeface.BOLD)
-            setTextColor(0xFFC62828.toInt())
+            setTextColor(0xFF3B4BDB.toInt())
             setPadding(0, dp(24f), 0, dp(6f))
         }, lp())
     }

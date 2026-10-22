@@ -78,13 +78,13 @@ data class KbTheme(
             keyPressed = Color.parseColor("#B0B4BA"),
             text = Color.parseColor("#202124"),
             hint = Color.parseColor("#5F6368"),
-            accent = Color.parseColor("#C62828"),
+            accent = Color.parseColor("#3B4BDB"),
             onAccent = Color.WHITE,
             strip = Color.parseColor("#E8EAED"),
             stripText = Color.parseColor("#3C4043"),
             divider = Color.parseColor("#C8CCD2"),
             preview = Color.WHITE,
-            touchDot = Color.parseColor("#E53935"),
+            touchDot = Color.parseColor("#FF6D3A"),
         )
 
         val DARK = KbTheme(
@@ -95,13 +95,13 @@ data class KbTheme(
             keyPressed = Color.parseColor("#555555"),
             text = Color.parseColor("#E8EAED"),
             hint = Color.parseColor("#9AA0A6"),
-            accent = Color.parseColor("#EF9A9A"),
-            onAccent = Color.parseColor("#3E0B0B"),
+            accent = Color.parseColor("#AAB4FF"),
+            onAccent = Color.parseColor("#0E1550"),
             strip = Color.parseColor("#1F1F1F"),
             stripText = Color.parseColor("#E8EAED"),
             divider = Color.parseColor("#3C3C3C"),
             preview = Color.parseColor("#4A4A4A"),
-            touchDot = Color.parseColor("#FF8A80"),
+            touchDot = Color.parseColor("#FF9E7A"),
         )
     }
 }

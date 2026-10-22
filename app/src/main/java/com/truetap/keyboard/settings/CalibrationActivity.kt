@@ -129,7 +129,7 @@ class CalibrationActivity : Activity(), KeyboardView.Listener {
         }
         val s = SpannableString(p)
         if (pos < p.length) {
-            s.setSpan(BackgroundColorSpan(0x33C62828), pos, pos + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            s.setSpan(BackgroundColorSpan(0x333B4BDB), pos, pos + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             s.setSpan(UnderlineSpan(), pos, pos + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
         s.setSpan(ForegroundColorSpan(0x88888888.toInt()), 0, pos, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)

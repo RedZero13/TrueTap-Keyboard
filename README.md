@@ -1,3 +1,5 @@
+<img src="docs/logo.svg" width="96" alt="TrueTap logo">
+
 # TrueTap Keyboard
 
 An Android keyboard modelled on Gboard. Its main job is to type the key you were aiming for, even when
