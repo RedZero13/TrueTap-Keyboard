@@ -39,8 +39,8 @@ class EmojiPanel(
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val tv = (convertView as? TextView) ?: TextView(context).apply {
                 gravity = Gravity.CENTER
-                setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
-                layoutParams = AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Ui.dp(context, 50f))
+                setTextSize(TypedValue.COMPLEX_UNIT_SP, 25f)
+                layoutParams = AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Ui.dp(context, 46f))
             }
             tv.text = items[position]
             return tv
@@ -50,7 +50,9 @@ class EmojiPanel(
     init {
         orientation = VERTICAL
         setBackgroundColor(theme.background)
-        grid.numColumns = 8
+        grid.numColumns = 9
+        grid.setPadding(Ui.dp(context, 4f), Ui.dp(context, 2f), Ui.dp(context, 4f), 0)
+        grid.clipToPadding = false
         grid.adapter = adapter
         grid.stretchMode = GridView.STRETCH_COLUMN_WIDTH
         grid.selector = Ui.rounded(theme.keyPressed, Ui.dp(context, 8f).toFloat())
@@ -63,10 +65,10 @@ class EmojiPanel(
             val t = TextView(context).apply {
                 text = icon
                 gravity = Gravity.CENTER
-                setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
+                setTextSize(TypedValue.COMPLEX_UNIT_SP, 17f)
                 setOnClickListener { select(i) }
             }
-            tabs.addView(t, LayoutParams(0, Ui.dp(context, 40f), 1f))
+            tabs.addView(t, LayoutParams(0, Ui.dp(context, 34f), 1f))
         }
         addView(Ui.bottomBar(context, theme, onAbc, tabs, onDelete), LayoutParams(LayoutParams.MATCH_PARENT, Ui.dp(context, 46f)))
         select(if (recents().isEmpty()) 1 else 0)
@@ -78,7 +80,10 @@ class EmojiPanel(
         adapter.notifyDataSetChanged()
         grid.setSelection(0)
         for (t in 0 until tabs.childCount) {
-            tabs.getChildAt(t).background = if (t == i) Ui.rounded(theme.keyFunction, Ui.dp(context, 10f).toFloat()) else null
+            val tab = tabs.getChildAt(t)
+            tab.background = if (t == i) Ui.rounded(theme.keyFunction, Ui.dp(context, 16f).toFloat()) else null
+            // Unselected categories recede, like Gboard's tab row.
+            tab.alpha = if (t == i) 1f else 0.55f
         }
     }
 }

@@ -50,6 +50,7 @@ class SuggestionBar(context: Context, private val theme: KbTheme) : LinearLayout
     private val suggestionRow = LinearLayout(context)
     private val searchText = TextView(context)
     private val slots = List(3) { TextView(context) }
+    private val dividers = ArrayList<View>()
     private var current: List<String> = emptyList()
     private var leftAction = Action.MORE
 
@@ -98,7 +99,7 @@ class SuggestionBar(context: Context, private val theme: KbTheme) : LinearLayout
                 current.getOrNull(slotToIndex(i))?.let { s -> listener?.onSuggestionLongPress(s) }
                 true
             }
-            if (i > 0) suggestionRow.addView(divider(), LayoutParams(dp(1f), dp(22f)))
+            if (i > 0) suggestionRow.addView(divider().also { dividers.add(it) }, LayoutParams(dp(1f), dp(22f)))
             suggestionRow.addView(tv, LayoutParams(0, barHeight, 1f))
         }
         suggestionRow.visibility = View.GONE
@@ -144,6 +145,7 @@ class SuggestionBar(context: Context, private val theme: KbTheme) : LinearLayout
         toolbar.visibility = View.GONE
         searchText.visibility = View.GONE
         suggestionRow.visibility = View.VISIBLE
+        dividers.forEach { it.visibility = View.VISIBLE }
         setLeft(Action.MORE)
         slots.forEachIndexed { slot, tv ->
             val i = slotToIndex(slot)
@@ -173,6 +175,7 @@ class SuggestionBar(context: Context, private val theme: KbTheme) : LinearLayout
         suggestionRow.visibility = View.VISIBLE
         searchText.visibility = View.GONE
         current = emptyList()
+        dividers.forEach { it.visibility = View.GONE }
         slots.forEachIndexed { slot, tv ->
             tv.text = if (slot == 1) title else ""
             tv.typeface = Typeface.DEFAULT_BOLD

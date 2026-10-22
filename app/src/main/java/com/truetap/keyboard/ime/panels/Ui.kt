@@ -53,10 +53,10 @@ object Ui {
             setTextColor(theme.text)
             setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
             gravity = Gravity.CENTER
-            background = pressable(c, theme.keyFunction, dp(c, 8f).toFloat(), theme)
+            background = pressable(c, theme.keyFunction, dp(c, 18f).toFloat(), theme)
             setOnClickListener { onAbc() }
         }
-        bar.addView(abc, LinearLayout.LayoutParams(dp(c, 56f), dp(c, 38f)).apply { leftMargin = dp(c, 6f); rightMargin = dp(c, 6f) })
+        bar.addView(abc, LinearLayout.LayoutParams(dp(c, 52f), dp(c, 36f)).apply { leftMargin = dp(c, 6f); rightMargin = dp(c, 4f) })
         bar.addView(middle ?: View(c), LinearLayout.LayoutParams(0, dp(c, 44f), 1f))
         if (onDelete != null) {
             val del = IconButton(c, Icon.DELETE, theme.text, 0.55f)

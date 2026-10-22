@@ -80,7 +80,10 @@ class InputRoot(
 
     private fun applyNavInset(insets: WindowInsets) {
         // Keep the bottom row clear of the system's keyboard-hide / switcher bar.
-        navInset = insets.getInsets(WindowInsets.Type.navigationBars()).bottom
+        // With gesture navigation Android reports only the thin handle (~24dp), but it also draws the
+        // keyboard's hide and switcher buttons there, which need ~48dp like Gboard leaves.
+        val reported = insets.getInsets(WindowInsets.Type.navigationBars()).bottom
+        navInset = if (reported > 0) maxOf(reported, Ui.dp(context, 48f)) else 0
         if (!floating) setPadding(0, 0, 0, navInset)
     }
 
