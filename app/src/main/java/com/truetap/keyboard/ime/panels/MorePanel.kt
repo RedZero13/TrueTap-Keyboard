@@ -24,6 +24,7 @@ class MorePanel(context: Context, theme: KbTheme, actions: List<Action>, onActio
                     gravity = Gravity.CENTER
                     background = Ui.pressable(context, theme.key, Ui.dp(context, 14f).toFloat(), theme)
                     setOnClickListener { onAction(a) }
+                    contentDescription = a.title
                 }
                 val icon = android.view.View(context).apply { background = IconDrawable(a.icon, theme.text, 0.75f) }
                 tile.addView(icon, LayoutParams(Ui.dp(context, 30f), Ui.dp(context, 30f)))

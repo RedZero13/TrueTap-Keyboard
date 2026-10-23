@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Debug-only helpers for automated store screenshots (tools/screenshots.sh). -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <activity
+            android:name=".demo.DemoActivity"
+            android:exported="true"
+            android:label="Messages"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
+
+        <receiver
+            android:name=".demo.DemoReceiver"
+            android:exported="true" />
+    </application>
+</manifest>

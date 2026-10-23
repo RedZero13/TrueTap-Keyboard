@@ -166,6 +166,9 @@ class TrueTapIME : InputMethodService(), KeyboardView.Listener, SuggestionBar.Li
         r.card.addView(content, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT))
         if (r.floating) r.card.addView(r.floatingHandle(), LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (28 * resources.displayMetrics.density).toInt()))
         root = r
+        if (com.truetap.keyboard.BuildConfig.DEBUG) {
+            r.viewTreeObserver.addOnGlobalLayoutListener { DebugDump.dump(r, kbView) }
+        }
         viewDirty = false
         engineVersion = -1
         panel = Panel.NONE
