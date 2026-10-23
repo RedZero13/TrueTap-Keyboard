@@ -29,6 +29,16 @@ refresh() {
     done < <(adb shell run-as com.truetap.keyboard cat files/ttdump.txt | tr -d '\r' | grep '|')
     echo "positions known: ${#X[@]}"
 }
+# If the keyboard isn't up, tap the message box (bottom of the screen) to bring it back.
+ensure_keyboard() {
+    refresh
+    if [ "${#X[@]}" -lt 10 ]; then
+        echo "keyboard not visible; tapping message field"
+        sh dumpsys input_method | grep -E "mInputShown|mCurId|mIsInputViewShown" | head -5
+        sh input tap 540 2270
+        refresh
+    fi
+}
 tap() {
     local name=$1 dx=${2:-0} dy=${3:-0}
     if [ -z "${X[$name]:-}" ]; then echo "!! no position for '$name'"; return; fi
@@ -70,7 +80,7 @@ glide() {
     GX=$px; GY=$py
 }
 glide_end() { sh input motionevent UP $GX $GY; sleep 0.8; }
-chat() { mark; prefs --es reset 1; refresh; }
+chat() { mark; prefs --es reset 1; ensure_keyboard; }
 
 # ---------------------------------------------------------------- device setup
 adb install -r -g app/build/outputs/apk/debug/app-debug.apk
@@ -144,13 +154,13 @@ sleep 5
 shot 10_thesaurus
 
 # ---------------------------------------------------------------- layouts
-mark; prefs --es mode one_right --es reset 1; refresh
+mark; prefs --es mode one_right --es reset 1; ensure_keyboard
 shot 11_one_handed
-mark; prefs --es mode floating --es reset 1; refresh
+mark; prefs --es mode floating --es reset 1; ensure_keyboard
 shot 12_floating
 prefs --es mode normal
 
-mark; prefs --es languages en,fr --es current_language fr --es reset 1; refresh
+mark; prefs --es languages en,fr --es current_language fr --es reset 1; ensure_keyboard
 type_text "bonjour "
 shot 13_french_azerty
 prefs --es languages en --es current_language en
