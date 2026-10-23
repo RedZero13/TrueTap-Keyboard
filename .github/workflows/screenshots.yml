@@ -58,6 +58,7 @@ jobs:
         run: |
           cd screenshots && zip -q ../truetap-screenshots.zip *.png && cd ..
           gh release delete screenshots --yes --cleanup-tag || true
+          sleep 5
           gh release create screenshots truetap-screenshots.zip screenshots/*.png screenshots/*.txt --prerelease --target "$GITHUB_SHA" \
             --title "TrueTap Keyboard screenshots" \
             --notes "Native screenshots captured from the real app on an emulator with Pixel 9 screen geometry (1080 x 2424, 420 dpi)."

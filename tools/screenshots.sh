@@ -16,7 +16,16 @@ prefs() { sh am broadcast -n $PKG/.demo.DemoReceiver "$@" > /dev/null; sleep 2.5
 demo() { sh am broadcast -a com.android.systemui.demo -e command "$@" > /dev/null; }
 
 # Always keep whatever we captured plus diagnostics.
-trap 'adb logcat -d > "$OUT/logcat.txt" 2>/dev/null; adb shell dumpsys input_method > "$OUT/input_method.txt" 2>/dev/null; exit 0' EXIT
+on_exit() {
+    adb logcat -d > "$OUT/logcat.txt" 2>/dev/null
+    adb shell dumpsys input_method > "$OUT/input_method.txt" 2>/dev/null
+    echo "===== crash buffer ====="
+    adb logcat -d -b crash 2>/dev/null | tail -80
+    echo "===== keyboard-related errors ====="
+    adb logcat -d 2>/dev/null | grep -iE "truetap|InputMethodManagerService|AndroidRuntime" | grep -iE "exception|error|fatal|died|crash|reset|switch" | tail -60
+    exit 0
+}
+trap on_exit EXIT
 
 declare -A X Y W
 mark() { adb logcat -c; }
