@@ -120,7 +120,7 @@ The app uses only the Android framework and the Kotlin standard library (no Andr
 
 ## Contributors
 
-- **Piyush Banerjee**: creator and product lead
+- **Piyush Banerjee**
 - **TerraTales Media Entertainment**
 
 See [AUTHORS](AUTHORS) for the full list.
