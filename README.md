@@ -118,6 +118,13 @@ The app uses only the Android framework and the Kotlin standard library (no Andr
 - Tuning beyond the Pixel 9 (tablets, foldables, small phones) is the next step. The engine works in
   key-width units, so learned offsets carry over between sizes.
 
+## Contributors
+
+- **Piyush Banerjee**: creator and product lead
+- **TerraTales Media Entertainment**
+
+See [AUTHORS](AUTHORS) for the full list.
+
 ## Credits
 
 Word frequencies come from [wordfreq](https://github.com/rspeer/wordfreq) (CC BY-SA 4.0). Other sources:

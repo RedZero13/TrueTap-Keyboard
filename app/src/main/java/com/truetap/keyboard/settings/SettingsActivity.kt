@@ -149,6 +149,7 @@ class SettingsActivity : Activity() {
         button("Allow microphone") { requestMic() }
 
         section("About")
+        text("TrueTap Keyboard by Piyush Banerjee and TerraTales Media Entertainment.", bold = true)
         text("Definitions: dictionaryapi.dev · Synonyms: Datamuse · GIFs: GIPHY. Word lists from the wordfreq project (CC BY-SA 4.0). Everything TrueTap learns about your typing stays on this device.")
     }
 
