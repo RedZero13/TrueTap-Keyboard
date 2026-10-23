@@ -18,10 +18,12 @@ import android.widget.TextView
 
 /** A plain chat screen to show the keyboard in context for screenshots. Debug builds only. */
 class DemoActivity : Activity() {
+    private lateinit var input: EditText
     private fun dp(v: Float) = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, v, resources.displayMetrics)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
         current = this
         val dark = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
         val bg = if (dark) Color.parseColor("#121318") else Color.parseColor("#F7F7FB")
@@ -80,7 +82,7 @@ class DemoActivity : Activity() {
         val scroll = ScrollView(this).apply { isFillViewport = true; addView(thread) }
         root.addView(scroll, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1f))
 
-        val input = EditText(this).apply {
+        input = EditText(this).apply {
             hint = "Message"
             setTextColor(fg)
             setHintTextColor(Color.GRAY)
@@ -97,6 +99,15 @@ class DemoActivity : Activity() {
         })
         setContentView(root)
         input.requestFocus()
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        // After a recreate the system doesn't always reopen the keyboard; ask for it explicitly.
+        if (hasFocus) input.postDelayed({
+            input.requestFocus()
+            getSystemService(android.view.inputmethod.InputMethodManager::class.java).showSoftInput(input, 0)
+        }, 300)
     }
 
     override fun onDestroy() {
