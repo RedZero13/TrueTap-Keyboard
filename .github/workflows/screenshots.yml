@@ -44,6 +44,7 @@ jobs:
           script: bash tools/screenshots.sh
 
       - uses: actions/upload-artifact@v5
+        if: always()
         with:
           name: truetap-screenshots
           path: screenshots/

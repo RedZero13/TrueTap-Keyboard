@@ -2,7 +2,7 @@
 # Captures promo screenshots of the real debug build on an emulator set to Pixel 9 geometry.
 # Run by .github/workflows/screenshots.yml; needs one booted device on adb.
 # Taps are real touch events on real key positions (reported by DebugDump in debug builds).
-set -uo pipefail
+set -o pipefail
 
 OUT=screenshots
 PKG=com.truetap.keyboard
@@ -15,6 +15,9 @@ shot() { sleep 1.2; adb exec-out screencap -p > "$OUT/$1.png"; echo "captured $1
 prefs() { sh am broadcast -n $PKG/.demo.DemoReceiver "$@" > /dev/null; sleep 2.5; }
 demo() { sh am broadcast -a com.android.systemui.demo -e command "$@" > /dev/null; }
 
+# Always keep whatever we captured plus diagnostics.
+trap 'adb logcat -d > "$OUT/logcat.txt" 2>/dev/null; adb shell dumpsys input_method > "$OUT/input_method.txt" 2>/dev/null; exit 0' EXIT
+
 declare -A X Y W
 mark() { adb logcat -c; }
 refresh() {
@@ -23,7 +26,8 @@ refresh() {
     while IFS='|' read -r _ name x y w; do
         [ -n "$name" ] || continue
         X["$name"]=$x; Y["$name"]=$y; W["$name"]=$w
-    done < <(adb logcat -d -v raw -s TTDUMP:I | tr -d '\r' | grep '|')
+    done < <(adb shell run-as com.truetap.keyboard cat files/ttdump.txt | tr -d '\r' | grep '|')
+    echo "positions known: ${#X[@]}"
 }
 tap() {
     local name=$1 dx=${2:-0} dy=${3:-0}
@@ -53,10 +57,11 @@ type_text() {
 GX=0; GY=0
 glide() {
     local word=$1 i c px py nx ny s
-    c=${word:0:1}; px=${X[$c]}; py=${Y[$c]}
+    c=${word:0:1}; px=${X[$c]:-0}; py=${Y[$c]:-0}
+    if [ "$px" = 0 ]; then echo "!! no positions for glide"; return; fi
     sh input motionevent DOWN $px $py
     for ((i = 1; i < ${#word}; i++)); do
-        c=${word:i:1}; nx=${X[$c]}; ny=${Y[$c]}
+        c=${word:i:1}; nx=${X[$c]:-$px}; ny=${Y[$c]:-$py}
         for s in 1 2 3 4 5 6; do
             sh input motionevent MOVE $((px + (nx - px) * s / 6)) $((py + (ny - py) * s / 6))
         done
@@ -106,10 +111,10 @@ glide "hello"
 sleep 0.5
 adb exec-out screencap -p > "$OUT/04_glide_typing.png"; echo "captured 04_glide_typing"
 glide_end
-sh input motionevent DOWN ${X[e]} ${Y[e]}
+sh input motionevent DOWN ${X[e]:-540} ${Y[e]:-1800}
 sleep 0.9
 adb exec-out screencap -p > "$OUT/05_accents.png"; echo "captured 05_accents"
-sh input motionevent UP ${X[e]} ${Y[e]}
+sh input motionevent UP ${X[e]:-540} ${Y[e]:-1800}
 sleep 0.5
 
 # ---------------------------------------------------------------- symbols, emoji, tools
