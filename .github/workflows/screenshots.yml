@@ -23,6 +23,9 @@ jobs:
       - uses: gradle/actions/setup-gradle@v5
 
       - name: Build debug APK
+        env:
+          # Optional repository secret; without it the GIF/sticker panels show the "add a key" message.
+          GIPHY_API_KEY: ${{ secrets.GIPHY_API_KEY }}
         run: ./gradlew --no-daemon assembleDebug
 
       - name: Enable KVM

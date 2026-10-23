@@ -104,6 +104,9 @@ class CalibrationActivity : Activity(), KeyboardView.Listener {
         root.addView(overlay)
         kb.overlay = overlay
         setContentView(root)
+        if (com.truetap.keyboard.BuildConfig.DEBUG) {
+            root.viewTreeObserver.addOnGlobalLayoutListener { com.truetap.keyboard.ime.DebugDump.dump(root, kb) }
+        }
         render()
     }
 

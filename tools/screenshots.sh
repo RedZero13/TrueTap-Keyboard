@@ -93,8 +93,8 @@ sh settings put global sysui_demo_allowed 1
 demo enter
 demo clock -e hhmm 0941
 demo battery -e level 100 -e plugged false
-demo network -e wifi show -e level 4 -e fully true
-demo network -e mobile hide
+demo network -e wifi hide
+demo network -e mobile show -e level 4 -e datatype 5g -e fully true
 demo network -e airplane hide
 demo notifications -e visible false
 sh cmd uimode night yes
@@ -172,11 +172,29 @@ chat
 type_text "see you soon "
 shot 14_light_theme
 
-# ---------------------------------------------------------------- settings & calibration
+# ---------------------------------------------------------------- GIFs & stickers (GIPHY)
+sh cmd uimode night yes
+sleep 3
+chat
+mark; tap GIFs; refresh
+sleep 6
+shot 15_gifs
+mark; tap Keyboard; refresh
+mark; tap More; refresh
+tap Stickers
+sleep 6
+shot 16_stickers
+mark; tap Keyboard; refresh
+
+# ---------------------------------------------------------------- set-up & calibration
 sh am start -W -n $PKG/.settings.SettingsActivity
-shot 15_settings
+shot 17_setup
+sh am start -W -a android.settings.INPUT_METHOD_SETTINGS
+shot 18_enable_keyboard
+mark
 prefs --es launch calibration
 sleep 2
-shot 16_calibration
-
+refresh
+type_text "the quick brown fox ju" 25
+shot 19_calibration
 ls -la "$OUT"
